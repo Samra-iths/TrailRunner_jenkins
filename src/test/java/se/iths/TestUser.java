@@ -9,10 +9,12 @@ import java.time.LocalDate;
 public class TestUser {
     User user;
 
+
    @BeforeEach
    public void setUpUser(){
         user= new User(46, 60);
          }
+
 
    @Test
    public void testUserIsCreated(){
@@ -26,16 +28,12 @@ public class TestUser {
     assertEquals(50, user.height_m);
   }
 
+
    @Test
   public void testUserSetWeightSuccessfully(){
     user = new User(50,60);
     assertEquals(60, user.weight_kg);
   }
-
-
-// •	Users should be able to calculate their BMI 
-// (Body Mass Index) using an automatic method according 
-// to the formula: 𝐵𝑀𝐼 = 𝑤𝑒𝑖𝑔ℎ𝑡 (kg)/ 2 ℎ𝑒𝑖𝑔ℎ𝑡 (m)
 
 
 @Test
@@ -46,68 +44,74 @@ public void calculateBMI (){
 
  double expectedBMI = user.weight_kg/Math.pow(user.height_m,2);
  
-
 assertEquals(expectedBMI,user.BMI);
 
-
 }
 
-
-
-//     Users should be able to save a running session with the following attributes:
-// Distance (km)
-// Time (hours, minutes, seconds)
-// Date (Year-Month-Day)
-
-
-
-
-@Test
-public void testSavedSessionWithDate(){
-
-  //user.session1 = date (2024_Jan_05), Time:14:00 , Distnace: km
-
-  Session sessionOne = new Session("2024-01-05",1800,1);
-  LocalDate expecteddate= LocalDate.of(2024,01,05);
-
-
-assertEquals(expecteddate, sessionOne.date);
-
-
-
-}
-
-@Test
-public void testSavedSessionWithTIme(){
-
-  Session sessionOne = new Session("2024-01-05",1800,1);
-  
- assertEquals(1800, sessionOne.time);
-}
-
-@Test
-public void testSavedSessionWithDistance(){
-
-  Session sessionOne = new Session("2024-01-05",1800,1);
-  
- assertEquals(1, sessionOne.distance);
-
- }
 
  @Test
 public void testUserSaveSessionWithUniqueID(){
 
 
-  Session sessionOne = new Session("2024-01-05",1800,1);
- user.saveSession();
+Session sessionOne = new Session("2024-01-05",1800,1);
+Session sessionTwo = new Session("2024-01-09",2000,2);
+
+ user.saveSession("SD123",sessionOne);
+ user.saveSession("SD2024",sessionTwo);
   
- assertEquals(1, sessionOne.distance);
+ assertEquals(sessionOne, user.savingSession.get("SD123"));
+
+ assertEquals(sessionTwo, user.savingSession.get("SD2024"));
 
  }
 
 
+  @Test
+public void testUserSaveSessionWithExistingKeyIsFailed(){
+
+
+Session sessionOne = new Session("2024-01-05",1800,1);
+Session sessionTwo = new Session("2024-01-09",2000,2);
+
+ assertTrue(user.saveSession("SD123",sessionOne));
+ assertFalse(user.saveSession("SD123",sessionTwo));
+ 
+  
+}
+
+
+@Test
+public void testTotalDistanceReturnsCorrectValue(){
+Session sessionOne = new Session("2024-01-05",1800,1);
+Session sessionTwo = new Session("2024-01-09",2000,2);
+
+ user.saveSession("SD123",sessionOne);
+ user.saveSession("SD2024",sessionTwo);
+
+ user.calculateTotalDistance(sessionOne);
+ user.calculateTotalDistance(sessionTwo);
+
+assertEquals(3, user.totalDistance);
+
+}
 
 
 
-    
+@Test
+public void calculateAverageDistanceReturnsCorrectValue(){
+Session sessionOne = new Session("2024-01-05",1800,2);
+Session sessionTwo = new Session("2024-01-09",2000,2);
+
+ user.saveSession("SD123",sessionOne);
+ user.saveSession("SD2024",sessionTwo);
+
+ user.calculateTotalDistance(sessionOne);
+ user.calculateTotalDistance(sessionTwo);
+
+ user.calculateAverageDistance(user.totalDistance,2);
+ 
+
+assertEquals(2, user.averageDistance);
+
+}
 }
