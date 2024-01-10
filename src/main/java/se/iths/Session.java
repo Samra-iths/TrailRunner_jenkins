@@ -28,8 +28,6 @@ public class Session {
         this.time_seconds = time_seconds;
         this.distance= distance;
 
-       // this.date=LocalDate.now(ZoneId.of("GMT+02:30"));
-
     }
     public void calculateAverageSpeed(double time_seconds, double distance){
         double time_hour= time_seconds/3600;

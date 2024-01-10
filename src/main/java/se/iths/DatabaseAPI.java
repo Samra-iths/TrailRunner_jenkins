@@ -8,7 +8,7 @@ public class DatabaseAPI {
         throw new UnsupportedOperationException();
     }
 
-    public Record readRecord(String id) {
+    public Session readRecord(String id) {
         throw new UnsupportedOperationException();
     }
 

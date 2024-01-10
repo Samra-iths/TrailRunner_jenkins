@@ -42,14 +42,13 @@ public void testSavedSessionWithDistance(){
  }
  
 
- //  medelhastighet enligt formeln ℎ𝑎𝑠𝑡𝑖𝑔ℎ𝑒𝑡 = 𝑑𝑖𝑠𝑡𝑎𝑛𝑠 (𝑘𝑚)/ 𝑡𝑖𝑑 (ℎ𝑟𝑠)
-// kilometer-tid enligt formeln 𝑘𝑖𝑙𝑜𝑚𝑒𝑡𝑒𝑟𝑡𝑖𝑑 =𝑡𝑖𝑑 (𝑚𝑖𝑛)/𝑑𝑖𝑠𝑡𝑎𝑛𝑠 (𝑘𝑚)
+
 
  @Test
  public void TestaverageSpeed(){
   Session session= new Session(1800,5);
   
-  assertEquals(0.1,session.averageSpeed);
+  assertEquals(10,session.averageSpeed);
 
  }
  @Test
