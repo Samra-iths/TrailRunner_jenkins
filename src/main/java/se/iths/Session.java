@@ -45,5 +45,19 @@ public void calculateKillometerTime(double time_seconds, double distance){
 
     }
 
+
+    public String toString(){
+        return "date:"+date + " "+"time_seconds:" + time_seconds + " "+"distance:" + distance ;
+           
+    }
+
+
+
     
-}
+    }
+
+
+
+
+    
+

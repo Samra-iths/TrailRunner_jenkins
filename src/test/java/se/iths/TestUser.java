@@ -3,16 +3,23 @@ package se.iths;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.mockito.*;
+import static org.mockito.Mockito.*;
+
 import java.beans.Transient;
 import java.time.LocalDate;
 
 public class TestUser {
     User user;
 
+    @Mock
+    DatabaseAPI api;
 
    @BeforeEach
    public void setUpUser(){
-        user= new User(46, 60);
+    api = mock(DatabaseAPI.class);    
+    
+    user= new User(46, 60, api);
          }
 
 
@@ -72,9 +79,15 @@ public void testUserSaveSessionWithExistingKeyIsFailed(){
 
 Session sessionOne = new Session("2024-01-05",1800,1);
 Session sessionTwo = new Session("2024-01-09",2000,2);
+user.saveSession("SD123",sessionOne);
+user.saveSession("SD123",sessionTwo);
 
- assertTrue(user.saveSession("SD123",sessionOne));
- assertFalse(user.saveSession("SD123",sessionTwo));
+ 
+ assertEquals(sessionOne, user.savingSession.get("SD123"));
+ assertNotEquals(sessionTwo, user.savingSession.get("SD123"));
+
+ 
+ 
  
   
 }
@@ -114,4 +127,78 @@ Session sessionTwo = new Session("2024-01-09",2000,2);
 assertEquals(2, user.averageDistance);
 
 }
+
+@Test
+public void TestPrintDetailForSessionUsingID(){
+
+Session sessionOne = new Session("2024-01-05",1800,2);
+Session sessionTwo = new Session("2024-01-09",2000,2);
+
+user.saveSession("SD123",sessionOne);
+user.saveSession("SD2024",sessionTwo);
+
+
+//assertEquals(sessionOne.distance,user.printDetailForSessionUsingID("SD123").distance );
+
+
+}
+
+
+@Test
+public void TestPrintDetailForSessionUsingIDReturnsExpectedValues(){
+
+Session sessionOne = new Session("2024-01-05",1800,2);
+
+user.saveSession("SD123",sessionOne);
+assertEquals("date:2024-01-05 time_seconds:1800.0 distance:2.0",sessionOne.toString());
+
+
+}
+
+
+
+@Test
+public void TestExectionIsThrownIfIncorrectIdIsGiven(){
+Session sessionOne = new Session("2024-01-05",1800,2);
+user.saveSession("SD123",sessionOne);
+IllegalArgumentException exception= assertThrows(IllegalArgumentException.class, ()->{user.printDetailForSessionUsingID("rtde");});;
+
+assertEquals("Key does not exist", exception.getMessage());
+
+
+}
+
+
+@Test
+public void TestDeleteSessionUsingID(){
+  Session sessionOne = new Session("2024-01-05",1800,2);
+  Session session = new Session("2024-01-05",1800,3);
+  user.saveSession("SD123",sessionOne);
+  user.saveSession("SD124",session);
+   user.deleteSessionUsingID("SD123");
+   assertFalse(user.savingSession.containsKey("SD123"));
+   
+
+}
+
+@Test
+public void testUserSaveSessionWithUniqueID_DatabaseVersion(){
+
+  when(api.createRecord("SD123", 1, 1800, "2024-01-05")).thenReturn(true);
+
+Session sessionOne = new Session("2024-01-05",1800,1);
+Session sessionTwo = new Session("2024-01-09",2000,2);
+
+ user.saveSession("SD123",sessionOne);
+ user.saveSession("SD2024",sessionTwo);
+  
+ assertEquals(sessionOne, user.savingSession.get("SD123"));
+
+ assertEquals(sessionTwo, user.savingSession.get("SD2024"));
+
+ assertTrue(user.saveSession("SD123", sessionOne));
+
+ }
+
+
 }
