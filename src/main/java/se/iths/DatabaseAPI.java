@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class DatabaseAPI {
-    public boolean createRecord(String id, double distance_km, int time_seconds, LocalDate date) {
+    public boolean createRecord(String id, double distance_km, double time_seconds, LocalDate date) {
         throw new UnsupportedOperationException();
     }
 
-    public Record readRecord(String id) {
+    public Session readRecord(String id) {
         throw new UnsupportedOperationException();
     }
 

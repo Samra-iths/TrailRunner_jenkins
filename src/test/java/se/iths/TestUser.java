@@ -31,14 +31,14 @@ public class TestUser {
 
   @Test
   public void testUserSetHeightSuccessfully(){
-    user=new User(50,60);
+    user=new User(50,60,api);
     assertEquals(50, user.height_m);
   }
 
 
    @Test
   public void testUserSetWeightSuccessfully(){
-    user = new User(50,60);
+    user = new User(50,60,api);
     assertEquals(60, user.weight_kg);
   }
 
@@ -184,19 +184,13 @@ public void TestDeleteSessionUsingID(){
 @Test
 public void testUserSaveSessionWithUniqueID_DatabaseVersion(){
 
-  when(api.createRecord("SD123", 1, 1800, "2024-01-05")).thenReturn(true);
-
+  when(api.createRecord("SD123", 1, 1800, LocalDate.parse("2024-01-05"))).thenReturn(true);
+  
+  when(api.createRecord("SD",2 , 2000, LocalDate.parse("2024-01-09"))).thenReturn(true);
 Session sessionOne = new Session("2024-01-05",1800,1);
 Session sessionTwo = new Session("2024-01-09",2000,2);
 
- user.saveSession("SD123",sessionOne);
- user.saveSession("SD2024",sessionTwo);
-  
- assertEquals(sessionOne, user.savingSession.get("SD123"));
-
- assertEquals(sessionTwo, user.savingSession.get("SD2024"));
-
- assertTrue(user.saveSession("SD123", sessionOne));
+  assertTrue(user.saveSession("SD", sessionTwo));
 
  }
 

@@ -31,17 +31,10 @@ public class User {
     }
 
 
-    public void saveSession(String key,Session session){
-        return api.createRecord(key, session.distance, (int) session.time_seconds, session.date);
+    public boolean saveSession(String key,Session session){
 
-        if(!savingSession.containsKey(key)){
-        savingSession.put(key, session);
-       
-        }
-        
+        return api.createRecord(key, session.distance, session.time_seconds, session.date);
 
-
-    
     }
 
 
