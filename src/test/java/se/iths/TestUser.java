@@ -134,14 +134,20 @@ public void TestPrintDetailForSessionUsingID(){
 Session sessionOne = new Session("2024-01-05",1800,2);
 Session sessionTwo = new Session("2024-01-09",2000,2);
 
-user.saveSession("SD123",sessionOne);
-user.saveSession("SD2024",sessionTwo);
+when(api.readRecord("SD123")).thenReturn(sessionOne);
+  
+when(api.readRecord("SD")).thenReturn(sessionTwo);
+
+assertEquals(sessionOne,user.printDetailForSessionUsingID("SD123"));
+assertEquals(sessionTwo,user.printDetailForSessionUsingID("SD"));
 
 
 //assertEquals(sessionOne.distance,user.printDetailForSessionUsingID("SD123").distance );
 
-
 }
+
+
+
 
 
 @Test

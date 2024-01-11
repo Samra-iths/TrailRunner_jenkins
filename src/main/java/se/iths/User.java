@@ -52,18 +52,30 @@ public class User {
     }
 
 
-    public String printDetailForSessionUsingID(String key){
+    public Session printDetailForSessionUsingID(String key){
         
 
-      if(!savingSession.containsKey(key)){
+      if(api.readRecord(key).equals(null)){
         throw new IllegalArgumentException("Key does not exist");
        }
       else{
-        Session session=savingSession.get(key);
-        return session.toString();
+       
+        return api.readRecord(key);
         }
 
     }
+
+
+
+//     public Session NewprintDetailForSessionUsingID(String key)  {
+//     try  {
+//         return api.readRecord(key);
+//     } catch (Exception e) {
+//         System.out.println("Error: ID not recognized - " );
+       
+//         throw e;
+//     }
+// }
     
 
     public void deleteSessionUsingID(String key){
