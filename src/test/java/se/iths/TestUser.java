@@ -221,7 +221,7 @@ assertThrows(SQLException.class,() ->{user.printDetailForSessionUsingID("SD123")
 
 
 @Test
-public void test(){
+public void testingGettingAllIDsThatAreRecordedINDatabase(){
 ArrayList<String> IDs = new ArrayList<String>();
 
 IDs.add("SD");
