@@ -55,8 +55,7 @@ public void calculateKillometerTime(double time_seconds, double distance_km){
 
     }
 
-//String id, double distance_km, double time_seconds, LocalDate date)
-//"SD123", 2, 1800,LocalDate.parse("2024-01-05")
+
 
     public String toString(){
         return "ID:"+id+" " +"distance_km:"+distance_km + " "+"time_seconds:" + time_seconds + " "+"date:" + date ;
