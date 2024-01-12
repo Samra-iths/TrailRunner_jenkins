@@ -58,6 +58,10 @@ public void testSavedSessionWithDistance(){
   assertEquals(6, session.kilometerTime);
 
  }
+
+
+
+ /////test
  
 }
 
