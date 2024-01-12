@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="sv"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Session.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">trailrunner</a> &gt; <a href="index.source.html" class="el_package">se.iths</a> &gt; <span class="el_source">Session.java</span></div><h1>Session.java</h1><pre class="source lang-java linenums">package se.iths;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+import java.time.Duration;
+
+public class Session {
+ 
+<span class="fc" id="L10">    LocalDate dateLocal=LocalDate.now(ZoneId.of(&quot;GMT+02:30&quot;));</span>
+    //String date;
+   public LocalDate date;
+   public double time_seconds;
+   public double distance_km;
+   public double averageSpeed;
+   public double kilometerTime;
+   public String id;
+
+//createRecord(String id, double distance_km, double time_seconds, LocalDate date)
+<span class="fc" id="L20">    public Session(String id, double distance_km, double time_seconds, LocalDate date) {</span>
+    
+<span class="fc" id="L22">        this.date =date;</span>
+<span class="fc" id="L23">        this.id = id;</span>
+<span class="fc" id="L24">        this.time_seconds = time_seconds;</span>
+<span class="fc" id="L25">        this.distance_km = distance_km;</span>
+<span class="fc" id="L26">        calculateAverageSpeed(time_seconds, distance_km);</span>
+<span class="fc" id="L27">        calculateKillometerTime(time_seconds,distance_km);</span>
+<span class="fc" id="L28">    }</span>
+
+
+    
+<span class="fc" id="L32">    public Session(String id, double distance_km, double time_seconds){</span>
+        //this.date = LocalDate.parse(date);
+<span class="fc" id="L34">        this.id =id;</span>
+<span class="fc" id="L35">        this.time_seconds = time_seconds;</span>
+<span class="fc" id="L36">        this.distance_km= distance_km;</span>
+<span class="fc" id="L37">        this.date = LocalDate.now();</span>
+<span class="fc" id="L38">        calculateAverageSpeed(time_seconds, distance_km);</span>
+<span class="fc" id="L39">        calculateKillometerTime(time_seconds,distance_km);</span>
+<span class="fc" id="L40">    }</span>
+
+
+
+    public void calculateAverageSpeed(double time_seconds, double distance_km){
+<span class="fc" id="L45">        double time_hour= time_seconds/3600;</span>
+        
+<span class="fc" id="L47">        averageSpeed=distance_km/time_hour;</span>
+
+<span class="fc" id="L49">    }</span>
+    
+public void calculateKillometerTime(double time_seconds, double distance_km){
+<span class="fc" id="L52">        double time_minutes= time_seconds/60;</span>
+        
+<span class="fc" id="L54">        kilometerTime=time_minutes/distance_km;</span>
+
+<span class="fc" id="L56">    }</span>
+
+//String id, double distance_km, double time_seconds, LocalDate date)
+//&quot;SD123&quot;, 2, 1800,LocalDate.parse(&quot;2024-01-05&quot;)
+
+    public String toString(){
+<span class="fc" id="L62">        return &quot;ID:&quot;+id+&quot; &quot; +&quot;distance_km:&quot;+distance_km + &quot; &quot;+&quot;time_seconds:&quot; + time_seconds + &quot; &quot;+&quot;date:&quot; + date ;</span>
+           
+    }
+
+
+
+    
+    }
+
+
+
+
+    
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

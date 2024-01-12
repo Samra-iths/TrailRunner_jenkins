@@ -12,9 +12,18 @@ import org.junit.jupiter.api.Test;
 
 public class TestSession {
 @Test
+public void testSavedSessionWithOutDate(){
+
+  Session sessionOne = new Session("SD123", 2, 1800);
+  LocalDate expecteddate= LocalDate.of(2024,01,12);
+
+assertEquals(expecteddate, sessionOne.date);
+
+}
+@Test
 public void testSavedSessionWithDate(){
 
-  Session sessionOne = new Session("2024-01-05",1800,1);
+  Session sessionOne = new Session("SD123", 2, 1800,LocalDate.parse("2024-01-05"));
   LocalDate expecteddate= LocalDate.of(2024,01,05);
 
 assertEquals(expecteddate, sessionOne.date);
@@ -25,7 +34,7 @@ assertEquals(expecteddate, sessionOne.date);
 @Test
 public void testSavedSessionWithTIme(){
 
-  Session sessionOne = new Session("2024-01-05",1800,1);
+  Session sessionOne = new Session("SD123",1.0,1800);
   
  assertEquals(1800, sessionOne.time_seconds);
 }
@@ -35,9 +44,9 @@ public void testSavedSessionWithTIme(){
 @Test
 public void testSavedSessionWithDistance(){
 
-  Session sessionOne = new Session("2024-01-05",1800,1);
+  Session sessionOne = new Session("SD123", 1, 1800);
   
- assertEquals(1, sessionOne.distance);
+ assertEquals(1, sessionOne.distance_km);
 
  }
  
@@ -47,18 +56,19 @@ public void testSavedSessionWithDistance(){
 
  @Test
  public void TestaverageSpeed(){
-  Session session= new Session(1800,5);
+  Session session= new Session("SD123", 5, 1800);
   
-  assertEquals(0.1,session.averageSpeed);
+  assertEquals(10.0,session.averageSpeed);
 
  }
  @Test
  public void TestKillometerPerTime(){
-  Session session=new Session(3600, 10);
+  Session session=new Session("SD123", 5, 1800);
   assertEquals(6, session.kilometerTime);
 
  }
  
+
 }
 
 

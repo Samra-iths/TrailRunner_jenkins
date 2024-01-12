@@ -11,43 +11,55 @@ public class Session {
     //String date;
    public LocalDate date;
    public double time_seconds;
-   public double distance;
+   public double distance_km;
    public double averageSpeed;
    public double kilometerTime;
+   public String id;
 
-    public Session(double time_seconds, double distance) {
-        date = LocalDate.now();
-        this.time_seconds = time_seconds;
-        this.distance = distance;
-        calculateAverageSpeed(time_seconds, distance);
-        calculateKillometerTime(time_seconds,distance);
-    }
+//createRecord(String id, double distance_km, double time_seconds, LocalDate date)
+    public Session(String id, double distance_km, double time_seconds, LocalDate date) {
     
-    public Session(String date ,long time_seconds , double distance ){
-        this.date = LocalDate.parse(date);
+        this.date =date;
+        this.id = id;
         this.time_seconds = time_seconds;
-        this.distance= distance;
-
-       // this.date=LocalDate.now(ZoneId.of("GMT+02:30"));
-
+        this.distance_km = distance_km;
+        calculateAverageSpeed(time_seconds, distance_km);
+        calculateKillometerTime(time_seconds,distance_km);
     }
-    public void calculateAverageSpeed(double time_seconds, double distance){
+
+
+    
+    public Session(String id, double distance_km, double time_seconds){
+        //this.date = LocalDate.parse(date);
+        this.id =id;
+        this.time_seconds = time_seconds;
+        this.distance_km= distance_km;
+        this.date = LocalDate.now();
+        calculateAverageSpeed(time_seconds, distance_km);
+        calculateKillometerTime(time_seconds,distance_km);
+    }
+
+
+
+    public void calculateAverageSpeed(double time_seconds, double distance_km){
         double time_hour= time_seconds/3600;
         
-        averageSpeed=distance/time_hour;
+        averageSpeed=distance_km/time_hour;
 
     }
     
-public void calculateKillometerTime(double time_seconds, double distance){
+public void calculateKillometerTime(double time_seconds, double distance_km){
         double time_minutes= time_seconds/60;
         
-        kilometerTime=time_minutes/distance;
+        kilometerTime=time_minutes/distance_km;
 
     }
 
+//String id, double distance_km, double time_seconds, LocalDate date)
+//"SD123", 2, 1800,LocalDate.parse("2024-01-05")
 
     public String toString(){
-        return "date:"+date + " "+"time_seconds:" + time_seconds + " "+"distance:" + distance ;
+        return "ID:"+id+" " +"distance_km:"+distance_km + " "+"time_seconds:" + time_seconds + " "+"date:" + date ;
            
     }
 

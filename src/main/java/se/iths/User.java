@@ -1,7 +1,14 @@
 package se.iths;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import javax.xml.crypto.Data;
+import java.time.LocalDate;
+
+
 
 public class User {
     double height_m;
@@ -30,17 +37,19 @@ public class User {
         
     }
 
-
-    public boolean saveSession(String key,Session session){
-
-        return api.createRecord(key, session.distance, session.time_seconds, session.date);
+//createRecord(String id, double distance_km, double time_seconds, LocalDate date)
+    public boolean saveSession(String id, double distance_km, double time_seconds, LocalDate date) throws SQLException{
+       if(api.createRecord( id,  distance_km,  time_seconds,  date)==false){
+        throw new SQLException("Error: Duplicate ID");
+       }
+        return api.createRecord(id,  distance_km,  time_seconds,  date);
 
     }
 
 
-    public void calculateTotalDistance(Session session){
-
-     totalDistance += session.distance;
+    public void calculateTotalDistance(String key){
+    Session currentSession=api.readRecord(key);
+     totalDistance += currentSession.distance_km;
 
     }
 
@@ -52,51 +61,69 @@ public class User {
     }
 
 
-    public Session printDetailForSessionUsingID(String key){
+    public Session printDetailForSessionUsingID(String key) throws SQLException{
         
-
-      if(api.readRecord(key).equals(null)){
-        throw new IllegalArgumentException("Key does not exist");
+      if(api.readRecord(key)==null){
+        throw new SQLException("Error: ID not recognized");
        }
       else{
        
         return api.readRecord(key);
         }
-
     }
 
 
-
-//     public Session NewprintDetailForSessionUsingID(String key)  {
-//     try  {
-//         return api.readRecord(key);
-//     } catch (Exception e) {
-//         System.out.println("Error: ID not recognized - " );
-       
-//         throw e;
-//     }
-// }
-    
-
-    public void deleteSessionUsingID(String key){
-       if(!savingSession.containsKey(key)){
-        throw new IllegalArgumentException("Key does not exist");
+    public boolean deleteSessionUsingID(String key) throws SQLException{
+      
+       if(api.deleteRecord(key)==false){
+        throw new SQLException("Key does not exist");
+        
        }
       else{
-        savingSession.remove(key);
-      }
-
+        return true;
+       
+    
     }
+    }
+    
+   public List<String> readIDFromDatabase(){
 
- 
+    return api.getRecordIDs();
 
+   }
 
-
-
-
-
-
-
+ public List<Session> filterSessionWithDistance(int distance, String condition ){
+  List<Session> filteredSessions = new ArrayList<>();
+  
+  for(String id:api.getRecordIDs()){
 
     
+    
+    switch (condition) {
+      case "Greater":
+          if(api.readRecord(id).distance_km > distance){
+      filteredSessions.add(api.readRecord(id));
+    }
+          break;
+      case "less":
+          if(api.readRecord(id).distance_km < distance){
+      filteredSessions.add(api.readRecord(id));
+    }
+          break;
+      case "equal":
+             if(api.readRecord(id).distance_km == distance){
+      filteredSessions.add(api.readRecord(id));
+    }
+          break;
+      
+
+  }
+  }
+  return filteredSessions;
+
+
+
+ }
+
+   
 }
