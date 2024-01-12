@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="sv"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">trailrunner</a> &gt; <a href="index.source.html" class="el_package">se.iths</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package se.iths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,100 +15,116 @@ public class User {
     double weight_kg;
     double BMI;
     Session session;
-<span class="fc" id="L17">    Map &lt;String, Session&gt; savingSession = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L18">    double totalDistance=0;</span>
-<span class="fc" id="L19">    double averageDistance=0;</span>
+<span class="fc" id="L18">    Map &lt;String, Session&gt; savingSession = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L19">    double totalDistance=0;</span>
+<span class="fc" id="L20">    double averageDistance=0;</span>
    
     DatabaseAPI api;
 
     
 
-<span class="fc" id="L25">    public User(double height_m, double weight_kg, DatabaseAPI api){</span>
-<span class="fc" id="L26">        this.height_m=height_m;</span>
-<span class="fc" id="L27">        this.weight_kg =weight_kg;</span>
-<span class="fc" id="L28">        this.api = api;</span>
+<span class="fc" id="L26">    public User(double height_m, double weight_kg, DatabaseAPI api){</span>
+<span class="fc" id="L27">        this.height_m=height_m;</span>
+<span class="fc" id="L28">        this.weight_kg =weight_kg;</span>
+<span class="fc" id="L29">        this.api = api;</span>
         //savingSession = new HashMap&lt;&gt;();
 
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L32">    }</span>
 
 
     public void calculateBMI(){
-<span class="fc" id="L35">        BMI = weight_kg/Math.pow(height_m,2);</span>
+<span class="fc" id="L36">        BMI = weight_kg/Math.pow(height_m,2);</span>
         
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L38">    }</span>
 
 //createRecord(String id, double distance_km, double time_seconds, LocalDate date)
     public boolean saveSession(String id, double distance_km, double time_seconds, LocalDate date) throws SQLException{
-<span class="fc bfc" id="L41" title="All 2 branches covered.">       if(api.createRecord( id,  distance_km,  time_seconds,  date)==false){</span>
-<span class="fc" id="L42">        throw new SQLException(&quot;Error: Duplicate ID&quot;);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">       if(api.createRecord( id,  distance_km,  time_seconds,  date)==false){</span>
+<span class="fc" id="L43">        throw new SQLException(&quot;Error: Duplicate ID&quot;);</span>
        }
-<span class="fc" id="L44">        return api.createRecord(id,  distance_km,  time_seconds,  date);</span>
+<span class="fc" id="L45">        return api.createRecord(id,  distance_km,  time_seconds,  date);</span>
 
     }
 
 
     public void calculateTotalDistance(String key){
-<span class="fc" id="L50">    Session currentSession=api.readRecord(key);</span>
-<span class="fc" id="L51">     totalDistance += currentSession.distance_km;</span>
+<span class="fc" id="L51">    Session currentSession=api.readRecord(key);</span>
+<span class="fc" id="L52">     totalDistance += currentSession.distance_km;</span>
 
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L54">    }</span>
 
 
     public void calculateAverageDistance(double totalDistance, int numberOfSession){
 
-<span class="fc" id="L58">    averageDistance = totalDistance/numberOfSession;</span>
+<span class="fc" id="L59">    averageDistance = totalDistance/numberOfSession;</span>
 
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L61">    }</span>
 
 
     public Session printDetailForSessionUsingID(String key) throws SQLException{
         
-<span class="fc bfc" id="L65" title="All 2 branches covered.">      if(api.readRecord(key)==null){</span>
-<span class="fc" id="L66">        throw new SQLException(&quot;Error: ID not recognized&quot;);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">      if(api.readRecord(key)==null){</span>
+<span class="fc" id="L67">        throw new SQLException(&quot;Error: ID not recognized&quot;);</span>
        }
       else{
        
-<span class="fc" id="L70">        return api.readRecord(key);</span>
+<span class="fc" id="L71">        return api.readRecord(key);</span>
         }
     }
 
 
     public boolean deleteSessionUsingID(String key) throws SQLException{
       
-<span class="fc bfc" id="L77" title="All 2 branches covered.">       if(api.deleteRecord(key)==false){</span>
-<span class="fc" id="L78">        throw new SQLException(&quot;Key does not exist&quot;);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">       if(api.deleteRecord(key)==false){</span>
+<span class="fc" id="L79">        throw new SQLException(&quot;Key does not exist&quot;);</span>
         
        }
       else{
-<span class="fc" id="L82">        return true;</span>
+<span class="fc" id="L83">        return true;</span>
        
     
     }
     }
     
-
-
-
-
-
-
-
    public List&lt;String&gt; readIDFromDatabase(){
 
-<span class="fc" id="L97">    return api.getRecordIDs();</span>
+<span class="fc" id="L91">    return api.getRecordIDs();</span>
 
    }
 
- 
-
-
-
-
-
-
-
-
+ public List&lt;Session&gt; filterSessionWithDistance(int distance, String condition ){
+<span class="fc" id="L96">  List&lt;Session&gt; filteredSessions = new ArrayList&lt;&gt;();</span>
+  
+<span class="fc bfc" id="L98" title="All 2 branches covered.">  for(String id:api.getRecordIDs()){</span>
 
     
+    
+<span class="fc bfc" id="L102" title="All 4 branches covered.">    switch (condition) {</span>
+      case &quot;Greater&quot;:
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">          if(api.readRecord(id).distance_km &gt; distance){</span>
+<span class="nc" id="L105">      filteredSessions.add(api.readRecord(id));</span>
+    }
+<span class="nc" id="L107">          break;</span>
+      case &quot;less&quot;:
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">          if(api.readRecord(id).distance_km &lt; distance){</span>
+<span class="fc" id="L110">      filteredSessions.add(api.readRecord(id));</span>
+    }
+<span class="fc" id="L112">          break;</span>
+      case &quot;equal&quot;:
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">             if(api.readRecord(id).distance_km == distance){</span>
+<span class="nc" id="L115">      filteredSessions.add(api.readRecord(id));</span>
+    }
+          break;
+      
+
+  }
+  }
+<span class="fc" id="L122">  return filteredSessions;</span>
+
+
+
+ }
+
+   
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
