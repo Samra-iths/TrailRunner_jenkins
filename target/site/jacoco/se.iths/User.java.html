@@ -91,35 +91,36 @@ public class User {
 <span class="fc" id="L91">    return api.getRecordIDs();</span>
 
    }
+   
 
  public List&lt;Session&gt; filterSessionWithDistance(int distance, String condition ){
-<span class="fc" id="L96">  List&lt;Session&gt; filteredSessions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L97">  List&lt;Session&gt; filteredSessions = new ArrayList&lt;&gt;();</span>
   
-<span class="fc bfc" id="L98" title="All 2 branches covered.">  for(String id:api.getRecordIDs()){</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">  for(String id:api.getRecordIDs()){</span>
 
     
     
-<span class="fc bfc" id="L102" title="All 4 branches covered.">    switch (condition) {</span>
+<span class="fc bfc" id="L103" title="All 4 branches covered.">    switch (condition) {</span>
       case &quot;Greater&quot;:
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">          if(api.readRecord(id).distance_km &gt; distance){</span>
-<span class="nc" id="L105">      filteredSessions.add(api.readRecord(id));</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">          if(api.readRecord(id).distance_km &gt; distance){</span>
+<span class="fc" id="L106">      filteredSessions.add(api.readRecord(id));</span>
     }
-<span class="nc" id="L107">          break;</span>
+<span class="fc" id="L108">          break;</span>
       case &quot;less&quot;:
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">          if(api.readRecord(id).distance_km &lt; distance){</span>
-<span class="fc" id="L110">      filteredSessions.add(api.readRecord(id));</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">          if(api.readRecord(id).distance_km &lt; distance){</span>
+<span class="fc" id="L111">      filteredSessions.add(api.readRecord(id));</span>
     }
-<span class="fc" id="L112">          break;</span>
+<span class="fc" id="L113">          break;</span>
       case &quot;equal&quot;:
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">             if(api.readRecord(id).distance_km == distance){</span>
-<span class="nc" id="L115">      filteredSessions.add(api.readRecord(id));</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">             if(api.readRecord(id).distance_km == distance){</span>
+<span class="fc" id="L116">      filteredSessions.add(api.readRecord(id));</span>
     }
           break;
       
 
   }
   }
-<span class="fc" id="L122">  return filteredSessions;</span>
+<span class="fc" id="L123">  return filteredSessions;</span>
 
 
 

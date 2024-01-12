@@ -29,8 +29,7 @@ public class TestUser {
     
     user= new User(46, 60, api);
    
-   sessionOne = new Session("SD123", 2, 1800,LocalDate.parse("2024-01-05"));
-
+    sessionOne = new Session("SD123", 2, 1800,LocalDate.parse("2024-01-05"));
     sessionTwo = new Session("SD", 2, 2000,LocalDate.parse("2024-01-09"));
          }
 
@@ -185,18 +184,6 @@ assertEquals(2, user.averageDistance);
 }
 
 
-
-//update method to belowsince it was not implemented correctly
-// @Test
-// public void TestPrintDetailForSessionUsingIDReturnsExpectedValues(){
-
-// when(api.readRecord("SD123")).thenReturn(sessionOne);
-
-// assertEquals( "ID:SD123 distance_km:2.0 time_seconds:1800.0 date:2024-01-05",sessionOne.toString());
-
-// }
-
-
 @Test
 public void TestPrintDetailForSessionUsingIDReturnsExpectedValues() throws SQLException{
 
@@ -236,7 +223,7 @@ assertEquals(IDs,user.readIDFromDatabase());
 
 
 @Test
-public void testFilteringSessionWithDistance(){
+public void testFilteringSessionLessThanDistance(){
   ArrayList<String> IDs = new ArrayList<String>();
 
 IDs.add("SD");
@@ -251,9 +238,54 @@ expected.add(sessionTwo);
 expected.add(sessionOne);
 
 
-assertEquals(expected, user.filterSessionWithDistance(5,"less"));
-assertNotEquals(expected, user.filterSessionWithDistance(5,"Greater"));
-assertNotEquals(expected, user.filterSessionWithDistance(5,"equal"));
+assertEquals(expected, user.filterSessionWithDistance(3,"less"));
+
+
+}
+
+@Test
+public void testFilteringSessionGreaterThanDistance(){
+  ArrayList<String> IDs = new ArrayList<String>();
+
+IDs.add("SD");
+IDs.add("SD123");
+sessionOne = new Session("SD123", 2, 1800);
+sessionTwo = new Session("SD", 6, 2000);
+
+when(api.getRecordIDs()).thenReturn(IDs);
+when(api.readRecord("SD123")).thenReturn(sessionOne);
+when(api.readRecord("SD")).thenReturn(sessionTwo);
+
+ArrayList<Session> expected = new ArrayList<Session>();
+expected.add(sessionTwo);
+
+
+
+
+assertEquals(expected, user.filterSessionWithDistance(5,"Greater"));
+
+
+
+}
+@Test
+public void testFilteringSessionEqualToDistance(){
+  ArrayList<String> IDs = new ArrayList<String>();
+
+IDs.add("SD");
+IDs.add("SD123");
+
+sessionOne = new Session("SD123", 6, 1800);
+sessionTwo = new Session("SD", 6, 2000);
+
+when(api.getRecordIDs()).thenReturn(IDs);
+when(api.readRecord("SD123")).thenReturn(sessionOne);
+when(api.readRecord("SD")).thenReturn(sessionTwo);
+
+ArrayList<Session> expected = new ArrayList<Session>();
+expected.add(sessionTwo);
+expected.add(sessionOne);
+
+assertEquals(expected, user.filterSessionWithDistance(6,"equal"));
 
 
 }
