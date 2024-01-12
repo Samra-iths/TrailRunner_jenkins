@@ -56,14 +56,6 @@ public void calculateKillometerTime(double time_seconds, double distance_km){
     }
 
 
-
-    public String toString(){
-        return "ID:"+id+" " +"distance_km:"+distance_km + " "+"time_seconds:" + time_seconds + " "+"date:" + date ;
-           
-    }
-
-
-
     
     }
 
