@@ -91,6 +91,7 @@ public class User {
     return api.getRecordIDs();
 
    }
+   
 
  public List<Session> filterSessionWithDistance(int distance, String condition ){
   List<Session> filteredSessions = new ArrayList<>();

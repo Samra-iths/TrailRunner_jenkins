@@ -93,6 +93,7 @@ assertEquals("Error: Duplicate ID", exception.getMessage());
 
 }
 
+
  @Test
 public void testReadingSession() throws SQLException{
 
@@ -111,18 +112,6 @@ when(api.readRecord("SD123")).thenReturn(null);
 SQLException exception= assertThrows(SQLException.class, ()->{user.printDetailForSessionUsingID("rtde");});
 
 assertEquals("Error: ID not recognized", exception.getMessage());
-
-}
-
-
-
-
- @Test
-public void testingReadingSessionWhichDoesNotExist(){
-
-when(api.readRecord("SD123")).thenReturn(null);
-
-assertThrows(SQLException.class,() ->{user.printDetailForSessionUsingID("SD123");});
 
 }
 
@@ -196,22 +185,43 @@ assertEquals(2, user.averageDistance);
 }
 
 
-//String id, double distance_km, double time_seconds, LocalDate date)
-//"SD123", 2, 1800,LocalDate.parse("2024-01-05")
+
+//update method to belowsince it was not implemented correctly
+// @Test
+// public void TestPrintDetailForSessionUsingIDReturnsExpectedValues(){
+
+// when(api.readRecord("SD123")).thenReturn(sessionOne);
+
+// assertEquals( "ID:SD123 distance_km:2.0 time_seconds:1800.0 date:2024-01-05",sessionOne.toString());
+
+// }
+
 
 @Test
-public void TestPrintDetailForSessionUsingIDReturnsExpectedValues(){
+public void TestPrintDetailForSessionUsingIDReturnsExpectedValues() throws SQLException{
 
 when(api.readRecord("SD123")).thenReturn(sessionOne);
 
-assertEquals( "ID:SD123 distance_km:2.0 time_seconds:1800.0 date:2024-01-05",sessionOne.toString());
+assertEquals(sessionOne ,user.printDetailForSessionUsingID("SD123"));
+
+}
+
+
+@Test
+public void testingReadingSessionWhichDoesNotExist() throws SQLException{
+
+when(api.readRecord("SD123")).thenReturn(null);
+
+assertThrows(SQLException.class,() ->{user.printDetailForSessionUsingID("SD123");});
 
 }
 
 
 
+
+
 @Test
-public void test(){
+public void testingGettingAllIDsThatAreRecordedINDatabase(){
 ArrayList<String> IDs = new ArrayList<String>();
 
 IDs.add("SD");
@@ -222,6 +232,8 @@ when(api.getRecordIDs()).thenReturn(IDs);
 assertEquals(IDs,user.readIDFromDatabase());
 
 }
+
+
 
 @Test
 public void testFilteringSessionWithDistance(){
