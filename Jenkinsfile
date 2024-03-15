@@ -33,5 +33,27 @@ pipeline {
                 }
             }
       }
+
+      stage('Robot build'){
+           
+         steps{
+               dir("Selenium"){
+
+                       bat "robot Labb-1.robot"
+            
+                }
+            }
+            
+            
+             post {
+                always {
+                    
+                    robot(
+                        outputPath:   'Selenium'
+                        )
+                }
+            }
+                  
+        }
     }
 }
