@@ -5,7 +5,7 @@ pipeline {
            
       stage('Build') {
             steps {
-                dir("Trail_runner"){
+                dir("TrailRunner"){
                 bat "mvn compile"
                 }
             }
