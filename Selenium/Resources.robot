@@ -94,7 +94,7 @@ The user selects the dates and the car
     Input Text    (//input[@id='start'])[1]    ${startDate}
     Input Text    (//input[@id='end'])[1]   ${endDate}
     Click Button    //button[@id='continue']
-    Wait Until Element Is Visible   //label[contains(text(),'Selected trip dates: ${startDate} – ${endDateConfirm}')]
+    Wait Until Element Is Visible   //label[contains(text(),'Selected trip dates: ${startDateConfirm} – ${endDateConfirm}')]
     Click Button    //tbody/tr[4]/td[5]/form[1]/input[4]
     Wait Until Element Is Visible    //h1[@id='questionText']
 
