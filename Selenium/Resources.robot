@@ -85,13 +85,16 @@ The user selects the dates and the car
     [Tags]      VG_test  book car
 
     ${getDate}    Get Time
-    ${startDate}    Get Substring  ${getDate}        0     10
-    ${endDate}    Get Substring  ${getDate}        0     10
+    ${startDate}    Get Substring  ${getDate}        4     10
+    ${endDate}    Get Substring  ${getDate}        4     10
+
+    ${startDateConfirm}    Get Substring  ${getDate}        0     10
+    ${endDateConfirm}    Get Substring  ${getDate}        0     10
     
     Input Text    (//input[@id='start'])[1]    ${startDate}
     Input Text    (//input[@id='end'])[1]   ${endDate}
     Click Button    //button[@id='continue']
-    Wait Until Element Is Visible   //label[contains(text(),'Selected trip dates: ${startDate} – ${endDate}')]
+    Wait Until Element Is Visible   //label[contains(text(),'Selected trip dates: ${startDate} – ${endDateConfirm}')]
     Click Button    //tbody/tr[4]/td[5]/form[1]/input[4]
     Wait Until Element Is Visible    //h1[@id='questionText']
 
